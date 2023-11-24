@@ -16,7 +16,9 @@
 
 package com.google.android.samples.dynamicfeatures.ondemand
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import com.google.android.play.core.splitinstall.SplitInstallHelper
 import com.google.android.samples.dynamicfeatures.BaseSplitActivity
@@ -24,6 +26,26 @@ import com.google.android.samples.dynamicfeatures.ondemand.ccode.R
 
 /** A simple activity displaying some text coming through via JNI. */
 class NativeSampleActivity : BaseSplitActivity() {
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
+        val libName = "trustvision-lib"
+//        val libc = "c++_shared"
+        val libc = "hello-jni"
+        try {
+            Log.i("TdcTest", "Loading...$libName along with c++_shared")
+            System.loadLibrary(libc)
+            Log.i("TdcTest", "Loaded...$libc")
+//            System.loadLibrary(libName)
+            Log.i("TdcTest", "Loaded...$libName")
+        } catch (e: Throwable) {
+            Log.e("TdcTest", "traditional library load failed...split loading...")
+            e.printStackTrace()
+            SplitInstallHelper.loadLibrary(this, libc)
+//            libraryFallback(libc, this)
+//            libraryFallback(libName, this)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -19,12 +19,16 @@ package com.google.android.samples.dynamicfeatures
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.play.core.splitcompat.SplitCompat
+import com.google.android.play.core.splitinstall.SplitInstallHelper
 
 /**
  * This base activity unifies calls to attachBaseContext as described in:
  * https://developer.android.com/guide/app-bundle/playcore#invoke_splitcompat_at_runtime
  */
 abstract class BaseSplitActivity : AppCompatActivity() {
+    protected val libraryFallback: (String, Context) -> Unit = { libname, newBase ->
+        SplitInstallHelper.loadLibrary(newBase, libname)
+    }
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
