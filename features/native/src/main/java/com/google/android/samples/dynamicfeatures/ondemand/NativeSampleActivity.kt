@@ -30,11 +30,12 @@ class NativeSampleActivity : BaseSplitActivity() {
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
         val libName = "trustvision-lib"
-//        val libc = "c++_shared"
-        val libc = "hello-jni"
+        val libc = "c++_shared"
+//        val libc = "hello-jni"
         try {
             Log.i("TdcTest", "Loading...$libName along with c++_shared")
-            System.loadLibrary(libc)
+//            System.loadLibrary(libc)
+            System.load("/data/data/com.google.android.samples.dynamicfeatures.ondemand/files/splitcompat/1/native-libraries/native.config.arm64_v8a/libc++_shared.so")
             Log.i("TdcTest", "Loaded...$libc")
 //            System.loadLibrary(libName)
             Log.i("TdcTest", "Loaded...$libName")
