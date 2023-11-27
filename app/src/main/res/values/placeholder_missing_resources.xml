@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tv_title_activity_main" />
+    <integer name="google_play_services_version">1</integer>
+
+    <style name="tvAppTheme.NoActionBar" parent="AppTheme.NoActionBar" />
+</resources>

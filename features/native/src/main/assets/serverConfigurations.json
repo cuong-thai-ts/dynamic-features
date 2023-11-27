@@ -1,0 +1,105 @@
+{
+  "card_types": [
+    {
+      "code": "vn.national_id",
+      "name": "CMND cũ / CMND mới / CCCD / Hộ chiếu",
+      "orientation": "horizontal",
+      "has_back_side": true,
+      "front_qr": {
+        "exist": false
+      },
+      "back_qr": {
+        "exist": false
+      }
+    }
+  ],
+  "country": "vn",
+  "settings": {
+    "sdk_settings": {
+      "active_liveness_settings": {
+        "show_gesture_arrow": true,
+        "face_tracking_setting": {
+          "android_terminate_threshold": 0.002847,
+          "android_warning_threshold": 0.001474,
+          "enable": false,
+          "ios_terminate_threshold": 0.003393,
+          "ios_warning_threshold": 0.002176,
+          "limit_for": "all_flow",
+          "max_interval_ms": 2000,
+          "max_warning_time": 5
+        },
+        "flow_interval_time_ms": 2000,
+        "limit_time_liveness_check": {
+          "enable": false,
+          "limit_time_second": 20
+        },
+        "record_video": {
+          "enable": false
+        },
+        "save_encoded_frames": {
+          "enable": true,
+          "frames_interval_ms": 180
+        },
+        "terminate_if_no_face": {
+          "enable": false,
+          "max_invalid_frame": 5,
+          "max_time_ms": 3000
+        }
+      },
+      "id_detection_settings": {
+        "exif_data_settings": {
+          "enable": false
+        },
+        "auto_capture": {
+          "enable": false,
+          "show_capture_button": true
+        },
+        "blur_check": {
+          "enable": true,
+          "threshold": 0.29,
+          "large_blurry_threshold": 3000,
+          "small_blurry_threshold": 13
+        },
+        "disable_capture_button_if_alert": true,
+        "glare_check": {
+          "enable": false,
+          "threshold": 0.001
+        },
+        "id_detection": {
+          "enable": true,
+          "return_labels": true
+        },
+        "limit_time_settings": {
+          "enable": true,
+          "limit_time_second": 10
+        },
+        "save_frame_settings": {
+          "enable": true,
+          "frames_interval_ms": 190,
+          "quality_android": 80,
+          "quality_ios": 70
+        },
+        "scan_nfc_settings": {
+          "enable": true,
+          "max_retries_android": 5,
+          "request_read_image": true,
+          "request_clone_detection": true,
+          "request_integrity_check": true
+        },
+        "scan_qr_settings": {
+          "enable": false,
+          "limit_time_second": 100
+        }
+      },
+      "liveness_settings": {
+        "exif_data_settings": {
+          "enable": true
+        },
+        "vertical_check": {
+          "enable": true,
+          "threshold": 40
+        }
+      }
+    }
+  }
+}

@@ -22,9 +22,17 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.android.play.core.splitinstall.SplitInstallHelper
 import com.google.android.samples.dynamicfeatures.BaseSplitActivity
 import com.google.android.samples.dynamicfeatures.ondemand.ccode.R
+import com.trustingsocial.tvcoresdk.external.BaseTrustVisionSDK
+import com.trustingsocial.tvcoresdk.external.TVCapturingCallBack
+import com.trustingsocial.tvcoresdk.external.TVDetectionError
+import com.trustingsocial.tvcoresdk.external.TVDetectionResult
+import com.trustingsocial.tvcoresdk.external.TVIDConfiguration
+import com.trustingsocial.tvsdk.TrustVisionActivity
+import com.trustingsocial.tvsdk.TrustVisionSDK
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -38,35 +46,39 @@ import java.security.NoSuchAlgorithmException
 /** A simple activity displaying some text coming through via JNI. */
 class NativeSampleActivity : BaseSplitActivity() {
 
-    @SuppressLint("NewApi")
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase)
-        val libName = "trustvision-lib"
-        val libc = "c++_shared"
-        val libcPath =
-            "/data/data/com.google.android.samples.dynamicfeatures.ondemand/files/splitcompat/1/native-libraries/native.config.arm64_v8a/libc++_shared.so"
-//        val libcPath = "/data/user/0/com.google.android.samples.dynamicfeatures.ondemand/files/splitcompat/1/native-libraries/native.config.arm64_v8a/libc++_shared.so"
-//        val libc = "hello-jni"
-        var libFile: File? = null
-        try {
-            Log.i("TdcTest", "Loading...$libName along with ${File(libcPath).exists()}: $libcPath ")
-//            println("TdcTest ~ source dirs: ${applicationInfo.splitSourceDirs.joinToString(", ")}")
-            println("TdcTest ~ files dir: $filesDir")
-//            System.loadLibrary(libc)
-            libFile = filesDir.find(libName)
-            println("TdcTest ~ libPath: $libFile")
-            System.load(libFile?.path ?: libcPath)
-            Log.i("TdcTest", "Loaded...")
-        } catch (e: Throwable) {
-            Log.e("TdcTest", "traditional library load failed...split loading...")
-            e.printStackTrace()
+//    @SuppressLint("NewApi")
+//    override fun attachBaseContext(newBase: Context?) {
+//        super.attachBaseContext(newBase)
+//        val libName = "trustvision-lib"
+//        val libc = "c++_shared"
+//        val libcPath =
+//            "/data/data/com.google.android.samples.dynamicfeatures.ondemand/files/splitcompat/1/native-libraries/native.config.arm64_v8a/libc++_shared.so"
+////        val libcPath = "/data/user/0/com.google.android.samples.dynamicfeatures.ondemand/files/splitcompat/1/native-libraries/native.config.arm64_v8a/libc++_shared.so"
+////        val libc = "hello-jni"
+//        var libFile: File? = null
+//        try {
+//            Log.i("TdcTest", "Loading...$libName along with ${File(libcPath).exists()}: $libcPath ")
+////            println("TdcTest ~ source dirs: ${applicationInfo.splitSourceDirs.joinToString(", ")}")
+//            println("TdcTest ~ files dir: $filesDir")
+//            println("TdcTest ~ lib dir: ${applicationInfo.nativeLibraryDir}")
+////            System.loadLibrary(libc)
+//            libFile = filesDir.find(libName)
+//            println("TdcTest ~ libPath: $libFile")
+//            System.load(libcPath)
+//            System.load(libFile?.path ?: libcPath)
+//            Log.i("TdcTest", "Loaded...")
+//        } catch (e: Throwable) {
+//            Log.e("TdcTest", "traditional library load failed...split loading...")
+//            e.printStackTrace()
 //            initSo(libcPath)
-            initSo(libFile?.path ?: "/data/data/com.google.android.samples.dynamicfeatures.ondemand/files/splitcompat/1/native-libraries/native.config.arm64_v8a/libtrustvision-lib.so")
-//            SplitInstallHelper.loadLibrary(this, libc)
-//            libraryFallback(libc, this)
-//            libraryFallback(libName, this)
-        }
-    }
+//            initSo(
+//                    "/data/data/com.google.android.samples.dynamicfeatures.ondemand/files/splitcompat/1/native-libraries/native.config.arm64_v8a/libtrustvision-lib.so"
+//            )
+////            SplitInstallHelper.loadLibrary(this, libc)
+////            libraryFallback(libc, this)
+////            libraryFallback(libName, this)
+//        }
+//    }
 
     private fun File.find(name: String): File? {
         if (this.name.contains(name, true)) return this
@@ -77,21 +89,47 @@ class NativeSampleActivity : BaseSplitActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val configuration = assets.open("serverConfigurations.json").reader().readText()
         SplitInstallHelper.loadLibrary(this, "hello-jni")
 
         setContentView(R.layout.activity_hello_jni)
-        findViewById<TextView>(R.id.hello_textview).text = stringFromJNI()
+        findViewById<TextView>(R.id.hello_textview).let {
+            it.text = stringFromJNI()
+            it.setOnClickListener {
+                TrustVisionSDK.init(configuration, null, null)
+                TrustVisionSDK.installDynamicFeature { context ->
+                    SplitCompat.installActivity(context)
+                }
+                TrustVisionActivity.startIDCapturing(
+                    this,
+                    TVIDConfiguration.Builder().build(),
+                    object : TVCapturingCallBack() {
+                        override fun onCanceled() {
+                            println("TdcTest ~ onCanceled")
+                        }
+
+                        override fun onError(error: TVDetectionError) {
+                            println("TdcTest ~ onError: $error")
+                        }
+
+                        override fun onSuccess(result: TVDetectionResult) {
+                            println("TdcTest ~ onSuccess")
+                        }
+                    })
+            }
+        }
     }
 
     @Synchronized
-    private fun initSo(path: String) {
+    private fun initSo(path: String, loader: ClassLoader? = javaClass.classLoader) {
         val runtime = Runtime.getRuntime()
         val nativeLoadRuntimeMethod: Method = getNativeLoadRuntimeMethod() ?: return
+        println("TdcTest ~ native method loaded...initialize so file...")
         var error: String? = null
         try {
             synchronized(runtime) {
                 error = nativeLoadRuntimeMethod.invoke(
-                    runtime, path, javaClass.classLoader, path
+                    runtime, path, loader, "callerName"
                 ) as String
                 if (error != null) {
                     throw UnsatisfiedLinkError(error)
@@ -147,11 +185,12 @@ class NativeSampleActivity : BaseSplitActivity() {
     }
 
     private fun getNativeLoadRuntimeMethod(): Method? {
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Build.VERSION.SDK_INT > 27) {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M/* || Build.VERSION.SDK_INT > 27*/) {
             null
-        } else try {
+        } else
+            try {
             Runtime::class.java.getDeclaredMethod(
-                "nativeLoad", String::class.java, ClassLoader::class.java, String::class.java
+                "nativeLoad", String::class.java, ClassLoader::class.java
             ).also {
                 it.isAccessible = true
             }
