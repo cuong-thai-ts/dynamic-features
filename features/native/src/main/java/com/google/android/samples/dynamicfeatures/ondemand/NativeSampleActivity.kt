@@ -26,7 +26,6 @@ import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.android.play.core.splitinstall.SplitInstallHelper
 import com.google.android.samples.dynamicfeatures.BaseSplitActivity
 import com.google.android.samples.dynamicfeatures.ondemand.ccode.R
-import com.trustingsocial.tvcoresdk.external.BaseTrustVisionSDK
 import com.trustingsocial.tvcoresdk.external.TVCapturingCallBack
 import com.trustingsocial.tvcoresdk.external.TVDetectionError
 import com.trustingsocial.tvcoresdk.external.TVDetectionResult
@@ -46,9 +45,8 @@ import java.security.NoSuchAlgorithmException
 /** A simple activity displaying some text coming through via JNI. */
 class NativeSampleActivity : BaseSplitActivity() {
 
-//    @SuppressLint("NewApi")
-//    override fun attachBaseContext(newBase: Context?) {
-//        super.attachBaseContext(newBase)
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
 //        val libName = "trustvision-lib"
 //        val libc = "c++_shared"
 //        val libcPath =
@@ -78,7 +76,10 @@ class NativeSampleActivity : BaseSplitActivity() {
 ////            libraryFallback(libc, this)
 ////            libraryFallback(libName, this)
 //        }
-//    }
+        TrustVisionSDK.installDynamicFeature {
+
+        }
+    }
 
     private fun File.find(name: String): File? {
         if (this.name.contains(name, true)) return this
@@ -97,9 +98,6 @@ class NativeSampleActivity : BaseSplitActivity() {
             it.text = stringFromJNI()
             it.setOnClickListener {
                 TrustVisionSDK.init(configuration, null, null)
-                TrustVisionSDK.installDynamicFeature { context ->
-                    SplitCompat.installActivity(context)
-                }
                 TrustVisionActivity.startIDCapturing(
                     this,
                     TVIDConfiguration.Builder().build(),

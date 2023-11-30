@@ -60,6 +60,7 @@ android {
     dynamicFeatures = [':assets',
                        ':kotlin',
                        ':java',
+                       ':flutter',
                        ':native']
 
 }
