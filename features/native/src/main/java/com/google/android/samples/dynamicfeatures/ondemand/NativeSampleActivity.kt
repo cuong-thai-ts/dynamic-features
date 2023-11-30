@@ -26,12 +26,12 @@ import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.android.play.core.splitinstall.SplitInstallHelper
 import com.google.android.samples.dynamicfeatures.BaseSplitActivity
 import com.google.android.samples.dynamicfeatures.ondemand.ccode.R
-import com.trustingsocial.tvcoresdk.external.TVCapturingCallBack
-import com.trustingsocial.tvcoresdk.external.TVDetectionError
-import com.trustingsocial.tvcoresdk.external.TVDetectionResult
-import com.trustingsocial.tvcoresdk.external.TVIDConfiguration
-import com.trustingsocial.tvsdk.TrustVisionActivity
-import com.trustingsocial.tvsdk.TrustVisionSDK
+//import com.trustingsocial.tvcoresdk.external.TVCapturingCallBack
+//import com.trustingsocial.tvcoresdk.external.TVDetectionError
+//import com.trustingsocial.tvcoresdk.external.TVDetectionResult
+//import com.trustingsocial.tvcoresdk.external.TVIDConfiguration
+//import com.trustingsocial.tvsdk.TrustVisionActivity
+//import com.trustingsocial.tvsdk.TrustVisionSDK
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -76,9 +76,9 @@ class NativeSampleActivity : BaseSplitActivity() {
 ////            libraryFallback(libc, this)
 ////            libraryFallback(libName, this)
 //        }
-        TrustVisionSDK.installDynamicFeature {
-
-        }
+//        TrustVisionSDK.installDynamicFeature {
+//
+//        }
     }
 
     private fun File.find(name: String): File? {
@@ -97,23 +97,23 @@ class NativeSampleActivity : BaseSplitActivity() {
         findViewById<TextView>(R.id.hello_textview).let {
             it.text = stringFromJNI()
             it.setOnClickListener {
-                TrustVisionSDK.init(configuration, null, null)
-                TrustVisionActivity.startIDCapturing(
-                    this,
-                    TVIDConfiguration.Builder().build(),
-                    object : TVCapturingCallBack() {
-                        override fun onCanceled() {
-                            println("TdcTest ~ onCanceled")
-                        }
-
-                        override fun onError(error: TVDetectionError) {
-                            println("TdcTest ~ onError: $error")
-                        }
-
-                        override fun onSuccess(result: TVDetectionResult) {
-                            println("TdcTest ~ onSuccess")
-                        }
-                    })
+//                TrustVisionSDK.init(configuration, null, null)
+//                TrustVisionActivity.startIDCapturing(
+//                    this,
+//                    TVIDConfiguration.Builder().build(),
+//                    object : TVCapturingCallBack() {
+//                        override fun onCanceled() {
+//                            println("TdcTest ~ onCanceled")
+//                        }
+//
+//                        override fun onError(error: TVDetectionError) {
+//                            println("TdcTest ~ onError: $error")
+//                        }
+//
+//                        override fun onSuccess(result: TVDetectionResult) {
+//                            println("TdcTest ~ onSuccess")
+//                        }
+//                    })
             }
         }
     }

@@ -19,9 +19,9 @@
 buildscript {
 
     ext.versions = [
-            'compileSdk': 33,
+            'compileSdk': 32,
             'minSdk'    : 19,
-            'targetSdk' : 33,
+            'targetSdk' : 32,
             'kotlin'    : '1.6.10',
             'playcore'  : '1.10.3',
     ]
@@ -46,9 +46,12 @@ buildscript {
 allprojects {
     repositories {
         maven { url "https://maven.google.com" }
+        maven { url "https://jitpack.io" }
         google()
         mavenCentral()
-        maven { url "repo" }
+        maven { url "${projectDir}/native_repo" }
+        maven { url "${projectDir}/flutter_repo" }
         maven { url "https://jitpack.io" }
+        maven { url 'https://storage.googleapis.com/download.flutter.io' }
     }
 }

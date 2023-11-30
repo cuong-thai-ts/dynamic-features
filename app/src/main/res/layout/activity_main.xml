@@ -62,19 +62,6 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_load_kotlin" />
 
     <Button
-        android:id="@+id/btn_load_assets"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/load_assets"
-        app:layout_constraintBottom_toTopOf="@+id/btn_install_all_now"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_load_native" />
-
-    <Button
         android:id="@+id/btn_load_native"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,6 +74,31 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_load_java" />
 
     <Button
+        android:id="@+id/btn_load_assets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/load_assets"
+        app:layout_constraintBottom_toTopOf="@+id/btn_load_flutter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_load_native" />
+
+    <Button
+        android:id="@+id/btn_load_flutter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/load_flutter"
+        app:layout_constraintBottom_toTopOf="@+id/btn_load_assets"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_install_all_now" />
+
+    <Button
         android:id="@+id/btn_install_all_now"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -96,7 +108,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_install_all_deferred"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_load_assets" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_load_flutter" />
 
     <Button
         android:id="@+id/btn_install_all_deferred"

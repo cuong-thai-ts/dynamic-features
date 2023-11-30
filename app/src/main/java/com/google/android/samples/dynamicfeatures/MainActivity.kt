@@ -37,6 +37,7 @@ private const val packageName = "com.google.android.samples.dynamicfeatures.onde
 private const val kotlinSampleClassname = "$packageName.KotlinSampleActivity"
 private const val javaSampleClassname = "$packageName.JavaSampleActivity"
 private const val nativeSampleClassname = "$packageName.NativeSampleActivity"
+private const val flutterSampleClassname = "$packageName.FlutterModuleSampleActivity"
 
 /** Activity that displays buttons and handles loading of feature modules. */
 class MainActivity : AppCompatActivity() {
@@ -74,6 +75,7 @@ class MainActivity : AppCompatActivity() {
     private val moduleJava by lazy { getString(R.string.module_feature_java) }
     private val moduleNative by lazy { getString(R.string.module_native) }
     private val moduleAssets by lazy { getString(R.string.module_assets) }
+    private val moduleFlutter by lazy { getString(R.string.module_flutter) }
 
     private val clickListener by lazy {
         View.OnClickListener {
@@ -82,6 +84,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.btn_load_java -> loadAndLaunchModule(moduleJava)
                 R.id.btn_load_native -> loadAndLaunchModule(moduleNative)
                 R.id.btn_load_assets -> loadAndLaunchModule(moduleAssets)
+                R.id.btn_load_flutter -> loadAndLaunchModule(moduleFlutter)
                 R.id.btn_install_all_now -> installAllFeaturesNow()
                 R.id.btn_install_all_deferred -> installAllFeaturesDeferred()
                 R.id.btn_request_uninstall -> requestUninstall()
@@ -214,6 +217,7 @@ class MainActivity : AppCompatActivity() {
                 moduleKotlin -> launchActivity(kotlinSampleClassname)
                 moduleJava -> launchActivity(javaSampleClassname)
                 moduleNative -> launchActivity(nativeSampleClassname)
+                moduleFlutter -> launchActivity(flutterSampleClassname)
                 moduleAssets -> displayAssets()
             }
         }
@@ -252,10 +256,10 @@ class MainActivity : AppCompatActivity() {
 
     /** Set all click listeners required for the buttons on the UI. */
     private fun setupClickListener() {
-
         setClickListener(R.id.btn_load_kotlin, clickListener)
         setClickListener(R.id.btn_load_java, clickListener)
         setClickListener(R.id.btn_load_assets, clickListener)
+        setClickListener(R.id.btn_load_flutter, clickListener)
         setClickListener(R.id.btn_load_native, clickListener)
         setClickListener(R.id.btn_install_all_now, clickListener)
         setClickListener(R.id.btn_install_all_deferred, clickListener)
@@ -269,6 +273,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateProgressMessage(message: String) {
         if (progress.visibility != View.VISIBLE) displayProgress()
         progressText.text = message
+        println("TdcTest ~ updateProgressMessage: $message")
     }
 
     /** Display progress bar and text. */

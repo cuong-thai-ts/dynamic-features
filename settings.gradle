@@ -19,7 +19,6 @@ include ':assets'
 include ':java'
 include ':kotlin'
 include ':native'
-include ':flutter'
 
 // Allows to have the four features modules shown in AS's Android view
 // without an empty "features" module.
@@ -27,4 +26,6 @@ project(":assets").projectDir = new File(rootDir, "features/assets")
 project(":java").projectDir = new File(rootDir, "features/java")
 project(":kotlin").projectDir = new File(rootDir, "features/kotlin")
 project(":native").projectDir = new File(rootDir, "features/native")
+
+include ':flutter'
 project(':flutter').projectDir = new File(rootDir, 'features/flutter')
