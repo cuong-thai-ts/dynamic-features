@@ -58,10 +58,13 @@ class FlutterModuleSampleActivity : BaseSplitActivity() {
         val pathC = pathLoader.findLibrary("c++_shared")
         val pathTv = pathLoader.findLibrary("trustvision-lib")
         val shellapp = String.format("--aot-shared-library-name=%s", pathapp)
-        val shellTv = String.format("--aot-shared-library-name=%s", pathTv)
+//        val shellTv = String.format("--aot-shared-library-name=%s", pathTv)
         flutterLoader.ensureInitializationComplete(
             applicationContext,
-            arrayOf(shellapp, shellTv)
+            arrayOf(
+                shellapp,
+//                shellTv
+            )
         )
         val jni = injector.flutterJNIFactory.provideFlutterJNI()
         val flutterEngine = FlutterEngine(applicationContext, flutterLoader, jni)
