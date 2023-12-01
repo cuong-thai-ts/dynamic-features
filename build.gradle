@@ -49,8 +49,8 @@ allprojects {
         maven { url "https://jitpack.io" }
         google()
         mavenCentral()
-        maven { url "${projectDir}/native_repo" }
-        maven { url "${projectDir}/flutter_repo" }
+        maven { url "${projectDir}/../native_repo" }
+        maven { url "${projectDir}/../flutter_repo" }
         maven { url "https://jitpack.io" }
         maven { url 'https://storage.googleapis.com/download.flutter.io' }
     }
