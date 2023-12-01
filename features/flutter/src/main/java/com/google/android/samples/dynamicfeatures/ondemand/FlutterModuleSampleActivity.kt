@@ -1,5 +1,6 @@
 package com.google.android.samples.dynamicfeatures.ondemand
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.samples.dynamicfeatures.BaseSplitActivity
 import com.google.android.samples.dynamicfeatures.ondemand.fcode.databinding.ActivityFlutterBinding
@@ -16,15 +17,18 @@ class FlutterModuleSampleActivity : BaseSplitActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.btn.setOnClickListener {
-            startActivity(
-                FlutterActivity.createDefaultIntent(this@FlutterModuleSampleActivity)
-            )
+//            startActivity(
+//                FlutterActivity.createDefaultIntent(this)
+//            )
+
 //            startActivity(
 //                FlutterActivity
 //                    .withNewEngine()
 //                    .initialRoute("/")
 //                    .build(this@FlutterModuleSampleActivity)
 //            )
+
+            startActivity(Intent(this, FlutterConfigActivity::class.java))
         }
     }
 }

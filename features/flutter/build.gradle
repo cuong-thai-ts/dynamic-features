@@ -22,6 +22,8 @@ android {
 dependencies {
     implementation project(":app")
 
-    implementation "com.example.flutter_module:flutter_debug:1.0"
-    implementation "com.trustingsocial.trust_vision_plugin:trust_vision_plugin_debug:1.0"
+    debugImplementation "com.example.flutter_module:flutter_debug:1.0"
+    releaseImplementation "com.example.flutter_module:flutter_release:1.0"
+    debugImplementation "com.trustingsocial.trust_vision_plugin:trust_vision_plugin_debug:1.0"
+    releaseImplementation "com.trustingsocial.trust_vision_plugin:trust_vision_plugin_release:1.0"
 }
